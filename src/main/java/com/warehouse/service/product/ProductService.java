@@ -1,8 +1,6 @@
 package com.warehouse.service.product;
 
-import com.warehouse.dto.product.IProductDto;
-import com.warehouse.dto.product.IStock;
-import com.warehouse.dto.product.ProductDto;
+import com.warehouse.dto.product.*;
 import com.warehouse.entity.product.Product;
 import com.warehouse.entity.product.ProductCategory;
 import com.warehouse.entity.product.ProductPrice;
@@ -12,6 +10,7 @@ import com.warehouse.repository.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -193,9 +192,44 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    // GET ALL I-PRODUCT-DTO
+
+    public List<IProductDto> getAllIProductDto() {
+        return productRepository.getAllProductDto();
+    }
+
     // GET ALL PRODUCT-DTO
 
-    public List<IProductDto> getAllProductDto() {
-        return productRepository.getAllProductDto();
+    public List<ProductDtoGet> getAllProductDto() {
+        List<IProductDto> iProductDtoList = productRepository.getAllProductDto();
+        return createIDtoToDto(iProductDtoList);
+    }
+
+    private List<ProductDtoGet> createIDtoToDto(List<IProductDto> iProductDtoList) {
+        List<ProductDtoGet> productDtoGetList = new ArrayList<>();
+        for(IProductDto iProductDto : iProductDtoList) {
+            ProductDtoGet productDtoGet = new ProductDtoGet();
+            productDtoGet.setArticleNumber(iProductDto.getArticle_Number());
+            productDtoGet.setName(iProductDto.getName());
+            productDtoGet.setDescription(iProductDto.getDescription());
+            productDtoGet.setCategory(iProductDto.getProduct_Category_Prefix());
+            productDtoGet.setValid(iProductDto.getValid());
+            productDtoGet.setListPrice(iProductDto.getList_Price());
+            productDtoGet.setMinPrice(iProductDto.getMin_Price());
+            if (iProductDto.getStock() != null) {
+                productDtoGet.setStock(iProductDto.getStock());
+            } else {
+                productDtoGet.setStock(0L);
+            }
+            productDtoGetList.add(productDtoGet);
+        }
+        return productDtoGetList;
+    }
+
+    // GET I-PRODUCT-HISTORY
+
+    public List<IProductStory> getIProductHistory(Long articleNumber) {
+        List<IProductStory> iProductStories = orderDetailRepository.getProductHistory(articleNumber);
+        return iProductStories;
     }
 }

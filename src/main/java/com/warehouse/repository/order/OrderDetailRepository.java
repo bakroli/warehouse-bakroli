@@ -1,5 +1,6 @@
 package com.warehouse.repository.order;
 
+import com.warehouse.dto.product.IProductStory;
 import com.warehouse.dto.product.IStock;
 import com.warehouse.entity.order.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,4 +38,20 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
             ,nativeQuery = true)
     List<IStock> countProductStock();
 
+
+    @Query (value =
+            "SELECT " +
+            " orders.order_number, " +
+            " orders.order_type, " +
+            " orders.date, " +
+            " orders.comment, " +
+            " order_details.number_of_item, " +
+            " order_details.price_per_item " +
+            "FROM order_details " +
+            "JOIN orders ON order_details.order_number = orders.order_number " +
+            "JOIN products ON order_details.product_id = products.id " +
+            "WHERE products.article_number = ? " +
+            "ORDER BY orders.order_number"
+            , nativeQuery = true)
+    List<IProductStory> getProductHistory(Long articleNumber);
 }

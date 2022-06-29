@@ -1,0 +1,16 @@
+table {
+    border: solid 1px black;
+}
+
+th {
+    border : solid 1px darkslategray;
+}
+
+td {
+    border : solid 1px lightblue;
+}
+
+.tdright {
+    text-align: right;
+}
+

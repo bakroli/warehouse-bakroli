@@ -1,6 +1,7 @@
 package com.warehouse.controller.product;
 
 import com.warehouse.dto.product.IProductDto;
+import com.warehouse.dto.product.IProductStory;
 import com.warehouse.dto.product.ProductDto;
 import com.warehouse.entity.product.Product;
 import com.warehouse.service.product.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,7 +85,12 @@ public class ProductController {
 
     @GetMapping("/dto")
     public List<IProductDto> getAllProductDto() {
-        return productService.getAllProductDto();
+        return productService.getAllIProductDto();
+    }
+
+    @GetMapping("/history/{articleNumber}")
+    public List<IProductStory> getProductHistory(@PathVariable("articleNumber") Long articleNumber, Model model) {
+        return productService.getIProductHistory(articleNumber);
     }
 
 }

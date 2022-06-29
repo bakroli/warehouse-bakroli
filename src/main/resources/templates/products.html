@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Products</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Products</h1>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Article No</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Valid</th>
+                <th>List Price</th>
+                <th>Min Price</th>
+                <th>Stock</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product:${products}">
+                <td th:text="${product.articleNumber}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.category}"></td>
+                <td th:text="${product.valid}"></td>
+                <td th:text="${product.listPrice}" class="tdright"></td>
+                <td th:text="${product.minPrice}" class=tdright></td>
+                <td th:text="${product.stock}" class=tdright></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

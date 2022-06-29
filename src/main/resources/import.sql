@@ -12,6 +12,8 @@ INSERT INTO products (article_number, name, description, valid, product_category
 INSERT INTO products (article_number, name, description, valid, product_category_prefix) VALUES (1005, 'GTN-1000', 'Reflector', TRUE, 'GT');
 INSERT INTO products (article_number, name, description, valid, product_category_prefix) VALUES (1006, 'GTR-1000', 'Refractor', TRUE, 'GT');
 INSERT INTO products (article_number, name, description, valid, product_category_prefix) VALUES (1007, 'GTR-1005', 'Refractor', FALSE, 'GT');
+INSERT INTO products (article_number, name, description, valid, product_category_prefix) VALUES (1008, 'PS-1600', 'Reflector', TRUE, 'PS');
+INSERT INTO products (article_number, name, description, valid) VALUES (1009, 'Demo', 'Demologia', TRUE);
 
 INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'TLN-1200'), 1000, 800);
 INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'TS-1000'), 1200, 900);
@@ -20,6 +22,8 @@ INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM p
 INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'GTN-1000'), 1100, 900);
 INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'GTR-1000'), 1800, 1100);
 INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'GTR-1005'), 1850, 1300);
+INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'PS-1600'), 1600, 1300);
+INSERT INTO product_price (id, list_price, min_price) VALUES ( (SELECT id FROM products WHERE name = 'Demo'), 0, 0);
 
 INSERT INTO orders (date, comment, order_type) VALUES ('2022-06-01', 'opening set','IN');
 INSERT INTO order_details (order_number, product_id, number_of_item, price_per_item) VALUES (1, (SELECT id FROM products WHERE name = 'TLN-1200'), 10, 700);
@@ -33,3 +37,6 @@ INSERT INTO order_details (order_number, product_id, number_of_item, price_per_i
 INSERT INTO orders (date, order_type) VALUES ('2022-06-03', 'OUT');
 INSERT INTO order_details (order_number, product_id, number_of_item, price_per_item) VALUES (3, (SELECT id FROM products WHERE name = 'TS-1000'), 4, 1100);
 INSERT INTO order_details (order_number, product_id, number_of_item, price_per_item) VALUES (3, (SELECT id FROM products WHERE name = 'GTN-1000'), 2, 1000);
+
+INSERT INTO orders (date, order_type) VALUES ('2022-06-04', 'IN');
+INSERT INTO order_details (order_number, product_id, number_of_item, price_per_item) VALUES (4, (SELECT id FROM products WHERE name = 'Demo'), 2, 0);

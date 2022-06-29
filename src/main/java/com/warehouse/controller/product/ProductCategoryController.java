@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,19 @@ public class ProductCategoryController {
     @GetMapping
     @Operation(summary = "List all product category.")
     @ApiResponse(responseCode = "200", description = "Get list successful")
-    public List<ProductCategoryDto> getAllCategories() {
+    public List<ProductCategory> getAllCategories() {
         return productCategoryService.getAllCategories();
+    }
+
+    @GetMapping("/{prefix}")
+    public ProductCategory getProductCategoryByPrefix(@PathVariable("prefix") String prefix) {
+//        try {
+//            return ResponseEntity.ok(productCategoryService.getProductCategoryByPrefix(prefix));
+//        } catch (NullPointerException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid prefix: " + prefix + " !");
+//        }
+
+        return productCategoryService.getProductCategoryByPrefix(prefix);
     }
 
     @PostMapping
@@ -45,11 +57,11 @@ public class ProductCategoryController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{prefix}")
     @Operation(summary = "Delete a prefix.")
     @ApiResponse(responseCode = "200", description = "Delete prefix successful")
     @ApiResponse(responseCode = "400", description = "Fail to delete")
-    public ResponseEntity<String> deleteProductCategory(@RequestParam(value = "prefix") String prefix) {
+    public ResponseEntity<String> deleteProductCategory(@PathVariable("prefix") String prefix) {
         try {
             productCategoryService.deleteProductCategory(prefix);
             return ResponseEntity.ok().body("DELETING prefix: " + prefix);
@@ -65,10 +77,7 @@ public class ProductCategoryController {
         productCategoryService.updateProductCategory(productCategoryDto);
     }
 
-    @GetMapping("/{prefix}")
-    public ProductCategory getProductCategoryByPrefix(@PathVariable("prefix") String prefix) {
-        return productCategoryService.getProductCategoryByPrefix(prefix);
-    }
+
 
 
 

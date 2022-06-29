@@ -19,23 +19,9 @@ public class ProductCategoryService {
         this.productCategoryRepository = productCategoryRepository;
     }
 
-    public List<ProductCategoryDto> getAllCategories() {
-        List<ProductCategory> productCategories = productCategoryRepository.findAll();
-        List<ProductCategoryDto> productCategoryDtoList = new ArrayList<>();
-        for (ProductCategory productCategory : productCategories) {
-            productCategoryDtoList.add(convertProductCategoryEntityToDto(productCategory));
-        }
-        return productCategoryDtoList;
+    public List<ProductCategory> getAllCategories() {
+        return productCategoryRepository.findAll();
     }
-
-
-    private ProductCategoryDto convertProductCategoryEntityToDto(ProductCategory productCategory) {
-        ProductCategoryDto productCategoryDto = new ProductCategoryDto();
-        productCategoryDto.setPrefix(productCategory.getPrefix());
-        productCategoryDto.setName(productCategory.getName());
-        return productCategoryDto;
-    }
-
 
     public void addNewProductCategory(ProductCategoryDto productCategoryDto) {
         productCategoryRepository.save(convertProductCategoryDtoToEntity(productCategoryDto));
@@ -52,14 +38,11 @@ public class ProductCategoryService {
         productCategoryRepository.deleteById(prefix);
     }
 
-
     public void updateProductCategory(ProductCategoryDto productCategoryDto) {
         productCategoryRepository.save(convertProductCategoryDtoToEntity(productCategoryDto));
     }
 
-
     public ProductCategory getProductCategoryByPrefix(String prefix) {
         return productCategoryRepository.findById(prefix).orElse(null);
-        //return productCategoryRepository.findByPrefix(prefix);
     }
 }

@@ -21,7 +21,9 @@ public class Order {
     @Column(name = "order_number")
     private Long orderNumber;
 
+    @Column(nullable = false)
     private LocalDate date;
+
     private String comment;
 
     @Enumerated(EnumType.STRING)

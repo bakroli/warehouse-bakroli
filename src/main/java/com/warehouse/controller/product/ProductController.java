@@ -1,5 +1,6 @@
 package com.warehouse.controller.product;
 
+import com.warehouse.dto.product.IProductDto;
 import com.warehouse.dto.product.ProductDto;
 import com.warehouse.entity.product.Product;
 import com.warehouse.service.product.ProductService;
@@ -8,13 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/products")
@@ -36,11 +37,12 @@ public class ProductController {
 
     @GetMapping("/{articleNumber}")
     @Operation(summary = "List one product by article number")
-    public ResponseEntity<Product> getProductByArticleNumber(@PathVariable("articleNumber") Long articleNumber) {
+    public ResponseEntity<?> getProductByArticleNumber(@PathVariable("articleNumber") Long articleNumber) {
         try {
             return ResponseEntity.ok(productService.getProductByArticleNumber(articleNumber));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
+        } catch (NullPointerException e) {
+            //return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid article number: " + articleNumber + " !");
         }
     }
 
@@ -50,15 +52,25 @@ public class ProductController {
             return ResponseEntity.badRequest().body("INVALID DATA");
         }
         try {
-            Long articleNumber = productService.saveNewProduct(productDto);
-            return ResponseEntity.ok().body("NEW Product save OK, product article number: " + articleNumber);
+            productService.saveNewProduct(productDto);
+            return ResponseEntity.ok().body("NEW Product save OK, product article number: " + productDto.getArticleNumber());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("ERROR new product save");
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteProductByArticleNumber(@RequestParam(value = "articleNumber") Long articleNumber) {
+    @PutMapping
+    public ResponseEntity<String> updateProductByArticleNumber(@RequestBody ProductDto productDto) {
+        try {
+            productService.updateProductByArticleNumber(productDto);
+            return ResponseEntity.ok().body("Updating, product article number: " + productDto.getArticleNumber());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Update wrong");
+        }
+    }
+
+    @DeleteMapping("/{articleNumber}")
+    public ResponseEntity<String> deleteProductByArticleNumber(@PathVariable("articleNumber") Long articleNumber) {
         try {
             productService.deleteProductByArticleNumber(articleNumber);
             return ResponseEntity.ok().body("DELETING");
@@ -69,14 +81,9 @@ public class ProductController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateProductByArticleNumber(@RequestBody ProductDto productDto) {
-        try {
-            productService.updateProductByArticleNumber(productDto);
-            return ResponseEntity.ok().body("Update ok");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Update wrong");
-        }
+    @GetMapping("/dto")
+    public List<IProductDto> getAllProductDto() {
+        return productService.getAllProductDto();
     }
 
 }

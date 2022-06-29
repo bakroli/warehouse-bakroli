@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -31,13 +33,19 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
+    // GET ALL ORDERS
+
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    // GET ONE ORDER WITH DETAILS
+
     public List<OrderDetail> getOrderFullByNumber(Long orderNumber) {
         return orderDetailRepository.findByOrderNumber(orderNumber);
     }
+
+    // SAVE NEW ORDER
 
     public Long saveOrder(OrderDto orderDto) {
         if (!orderDtoValid(orderDto)) {
@@ -47,7 +55,7 @@ public class OrderService {
         if (!orderProductTrueValid(order)) {
             throw new IllegalArgumentException();
         }
-        if (orderDto.getOrderType() == OrderType.OUT && !orderPriceMinPriceValid(order)) {
+        if (order.getOrderType() == OrderType.OUT && !orderPriceMinPriceValid(order)) {
             throw  new IllegalArgumentException();
         }
         orderRepository.save(order);
@@ -96,8 +104,17 @@ public class OrderService {
         Order order = new Order();
         order.setDate(orderDto.getDate());
         order.setComment(orderDto.getComment());
-        order.setOrderType(orderDto.getOrderType());
+
+        if (orderDto.getOrderType().equals(OrderType.IN.toString())) {
+            order.setOrderType(OrderType.IN);
+        } else if (orderDto.getOrderType().equals(OrderType.OUT.toString())) {
+            order.setOrderType(OrderType.OUT);
+        } else {
+            throw new IllegalArgumentException();
+        }
+
         List<OrderDetail> orderDetails = new ArrayList<>();
+        Map<Long, Long> stocks = new HashMap<>();
         for(OrderDetailDto orderDetailDto : orderDto.getOrderDetails()) {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
@@ -110,14 +127,21 @@ public class OrderService {
                 if (productStock == null) {
                     productStock = 0L;
                 }
-                if (productStock - orderDetailDto.getNumberOfItem() < 0) {
-                    throw new NumberFormatException();
+                if (stocks.containsKey(product.getId())) {
+                    stocks.put(product.getId(), stocks.get(product.getId()) - orderDetailDto.getNumberOfItem());
+                } else {
+                    stocks.put(product.getId(), productStock - orderDetailDto.getNumberOfItem());
                 }
             }
             orderDetail.setProduct(product);
             orderDetail.setNumberOfItem(orderDetailDto.getNumberOfItem());
             orderDetail.setPricePerItem(orderDetailDto.getPricePerItem());
             orderDetails.add(orderDetail);
+        }
+        for (Map.Entry<Long, Long> e : stocks.entrySet()) {
+            if (e.getValue()<0) {
+                throw new NumberFormatException();
+            }
         }
         order.setOrderDetails(orderDetails);
         return order;

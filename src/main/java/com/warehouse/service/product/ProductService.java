@@ -1,5 +1,7 @@
 package com.warehouse.service.product;
 
+import com.warehouse.dto.product.IProductDto;
+import com.warehouse.dto.product.IStock;
 import com.warehouse.dto.product.ProductDto;
 import com.warehouse.entity.product.Product;
 import com.warehouse.entity.product.ProductCategory;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class ProductService {
@@ -28,44 +32,53 @@ public class ProductService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
+    // GET ALL PRODUCTS
+
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        for(Product product: products) {
-            Long productStock = orderDetailRepository.getProductStock(product.getId());
-            if (productStock != null) {
-                product.setActualStock(productStock);
-            } else {
-                product.setActualStock(0L);
+        Map<Long, Long> stocksMap = getAllStocks();
+        for(Product product : products) {
+            Long stock = stocksMap.get(product.getId());
+            if (stock == null) {
+                stock = 0L;
             }
+            product.setActualStock(stock);
         }
         return products;
     }
 
+    private Map<Long, Long> getAllStocks() {
+        List<IStock> stocks = orderDetailRepository.countProductStock();
+        Map<Long, Long> stocksMap = new TreeMap<>();
+        for (IStock iStock : stocks) {
+            stocksMap.put(iStock.getPid(), iStock.getStock());
+        }
+        return stocksMap;
+    }
+
+    // GET PRODUCT BY ARTICLE NUMBER
+
     public Product getProductByArticleNumber(Long articleNumber) {
         Product product = productRepository.findByArticleNumber(articleNumber);
-        Long id = product.getId();
-        Long productStock = orderDetailRepository.getProductStock(id);
-        if (productStock == null) {
-            productStock = 0L;
-        }
+        Long productStock = getProductStock(product.getId());
         product.setActualStock(productStock);
         return product;
     }
 
-    public Long saveNewProduct(ProductDto productDto) {
-        Product product = convertProductDtoToEntity(productDto);
-        if (product.getProductPrice().getListPrice() == null) {
-            product.getProductPrice().setListPrice(0D);
+    private Long getProductStock(Long id) {
+        Long productStock = orderDetailRepository.getProductStock(id);
+        if (productStock == null) {
+            productStock = 0L;
         }
-        if (product.getProductPrice().getMinPrice() == null) {
-            product.getProductPrice().setMinPrice(0D);
-        }
-        if (product.getProductPrice().getListPrice() < product.getProductPrice().getMinPrice()) {
-            throw new IllegalArgumentException();
-        }
+        return productStock;
+    }
 
+
+    // SAVE NEW PRODUCT
+
+    public void saveNewProduct(ProductDto productDto) {
+        Product product = convertProductDtoToEntity(productDto);
         productRepository.save(product);
-        return product.getArticleNumber();
     }
 
     private Product convertProductDtoToEntity(ProductDto productDto) {
@@ -73,31 +86,55 @@ public class ProductService {
         product.setArticleNumber(productDto.getArticleNumber());
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
-        product.setValid(productDto.getValid());
+        product.setValid(setValidFromDto(productDto.getValid()));
+
         ProductPrice productPrice = new ProductPrice();
         productPrice.setProduct(product);
-        productPrice.setListPrice(productDto.getListPrice());
-        productPrice.setMinPrice(productDto.getMinPrice());
+        productPrice.setListPrice(setPriceFromDto(productDto.getListPrice()));
+        productPrice.setMinPrice(setPriceFromDto(productDto.getMinPrice()));
         product.setProductPrice(productPrice);
-        ProductCategory productCategory = productCategoryRepository.findById(productDto.getProductCategory()).orElse(null);
-        product.setProductCategory(productCategory);
+
+        examinePrice(product.getProductPrice());
+
+        product.setProductCategory(setProductCategoryFromDto(productDto.getProductCategory()));
+
         return product;
     }
 
-    public void deleteProductByArticleNumber(Long articleNumber) {
-        Long id = productRepository.findByArticleNumber(articleNumber).getId();
-        productRepository.deleteById(id);
+    private Double setPriceFromDto(Double price) {
+        if (price == null) {
+            return 0D;
+        } else {
+            return price;
+        }
     }
 
+    private Boolean setValidFromDto(Boolean valid) {
+        if (valid == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void examinePrice(ProductPrice productPrice) {
+        if (productPrice.getListPrice() < productPrice.getMinPrice()) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private ProductCategory setProductCategoryFromDto(String category) {
+        if (category == null) {
+            return null;
+        } else {
+            return productCategoryRepository.findById(category).orElse(null);
+        }
+    }
+
+    // UPDATE PRODUCT
+
     public void updateProductByArticleNumber(ProductDto productDto) {
-        Long articleNumber = productDto.getArticleNumber();
-        if (articleNumber == null) {
-            throw new IllegalArgumentException();
-        }
-        Product product = productRepository.findByArticleNumber(articleNumber);
-        if (product == null) {
-            throw new IllegalArgumentException();
-        }
+        Product product = getValidProduct(productDto);
 
         if (productDto.getValid() != null) {
             if (productDto.getValid() == Boolean.FALSE) {
@@ -112,21 +149,53 @@ public class ProductService {
         }
 
         if (productDto.getDescription() != null) {
-            product.setDescription(productDto.getDescription());
+            product.setDescription(setUpdateDescription(productDto.getDescription(), product.getDescription()));
         }
 
-        if (productDto.getListPrice() != null) {
+        if (productDto.getListPrice() != null && productDto.getListPrice() >= 0) {
             product.getProductPrice().setListPrice(productDto.getListPrice());
         }
 
-        if (productDto.getMinPrice() != null) {
+        if (productDto.getMinPrice() != null && productDto.getMinPrice() >= 0) {
             product.getProductPrice().setMinPrice(productDto.getMinPrice());
         }
 
-        if (product.getProductPrice().getListPrice() < product.getProductPrice().getMinPrice()) {
-            throw new IllegalArgumentException();
-        }
+        examinePrice(product.getProductPrice());
 
         productRepository.save(product);
+    }
+
+    private Product getValidProduct(ProductDto productDto) {
+        if (productDto.getArticleNumber() == null) {
+            throw new IllegalArgumentException();
+        }
+        Product product = productRepository.findByArticleNumber(productDto.getArticleNumber());
+        if (product == null) {
+            throw new IllegalArgumentException();
+        }
+        return product;
+    }
+
+    private String setUpdateDescription(String newDescription, String oldDescription) {
+        System.out.println(newDescription.isEmpty());
+        if (!newDescription.equals("") && !newDescription.isBlank()) {
+            return newDescription;
+        } else {
+            return oldDescription;
+        }
+    }
+
+
+    // DELETE PRODUCT
+
+    public void deleteProductByArticleNumber(Long articleNumber) {
+        Long id = productRepository.findByArticleNumber(articleNumber).getId();
+        productRepository.deleteById(id);
+    }
+
+    // GET ALL PRODUCT-DTO
+
+    public List<IProductDto> getAllProductDto() {
+        return productRepository.getAllProductDto();
     }
 }

@@ -2,9 +2,85 @@
 <html xmlns:th="http://www.thymleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="'Product History: ' + ${product.name}">Product History</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Product history</h1>
+    <h2>Product history</h2>
+    <div id="producttable">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="tdp">Article No</td>
+                    <td th:text="${product.articleNumber}"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Product Name</td>
+                    <td th:text="${product.name}"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Description</td>
+                    <td th:text="${product.description}"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Category</td>
+                    <td th:text="${product.category}"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Valid</td>
+                    <td th:text="${product.valid}"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">List Price</td>
+                    <td th:text="${product.listPrice}" class="thright"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Minimum Price</td>
+                    <td th:text="${product.minPrice}" class="thright"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Last Purchase Price</td>
+                    <td th:text="${lastpurchaseprice}" class="thright"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">Stock</td>
+                    <td th:text="${product.stock}" class="thright"></td>
+                </tr>
+                <tr>
+                    <td class="tdp">FIFO Price</td>
+                    <td th:text="${fifoprice}" class="thright"></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Order Date</th>
+                <th>Order Type</th>
+                <th >Order Comment</th>
+                <th>Number of Item</th>
+                <th>Price per Item</th>
+                <th>Total Sum</th>
+                <th>Actual Stock</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="history:${history}">
+                <td th:text="${history.orderNumber}" class="tdright"></td>
+                <td th:text="${history.date}" class="tdright"></td>
+                <td th:text="${history.orderType}"></td>
+                <td th:text="${history.comment}" id="comwidt"></td>
+                <td th:text="${history.numberOfItem}" class="tdright"></td>
+                <td th:text="${history.pricePerItem}" class="tdright"></td>
+                <td th:text="${history.sum}" class="tdright"></td>
+                <td th:text="${history.actualStock}" class="tdright"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

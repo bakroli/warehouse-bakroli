@@ -1,6 +1,6 @@
-package com.warehouse.dto.product;
+package com.warehouse.model.dao;
 
-public interface IProductDto {
+public interface ProductDao {
 
     Long getArticle_Number();
     String getName();

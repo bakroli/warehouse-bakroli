@@ -4,13 +4,14 @@ import com.warehouse.dto.product.*;
 import com.warehouse.entity.product.Product;
 import com.warehouse.entity.product.ProductCategory;
 import com.warehouse.entity.product.ProductPrice;
+import com.warehouse.model.dao.StockDao;
 import com.warehouse.repository.order.OrderDetailRepository;
 import com.warehouse.repository.product.ProductCategoryRepository;
 import com.warehouse.repository.product.ProductRepository;
+import com.warehouse.service.component.ProductComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,17 +19,20 @@ import java.util.TreeMap;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
-    private ProductCategoryRepository productCategoryRepository;
-    private OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductComponent productComponent;
 
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductCategoryRepository productCategoryRepository,
-                          OrderDetailRepository orderDetailRepository) {
+                          OrderDetailRepository orderDetailRepository,
+                          ProductComponent productComponent) {
         this.productRepository = productRepository;
         this.productCategoryRepository = productCategoryRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.productComponent = productComponent;
     }
 
     // GET ALL PRODUCTS
@@ -36,20 +40,17 @@ public class ProductService {
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();
         Map<Long, Long> stocksMap = getAllStocks();
-        for(Product product : products) {
+        for (Product product : products) {
             Long stock = stocksMap.get(product.getId());
-            if (stock == null) {
-                stock = 0L;
-            }
-            product.setActualStock(stock);
+            product.setActualStock(productComponent.getLongValue(stock));
         }
         return products;
     }
 
     private Map<Long, Long> getAllStocks() {
-        List<IStock> stocks = orderDetailRepository.countProductStock();
+        List<StockDao> stocks = orderDetailRepository.countProductStock();
         Map<Long, Long> stocksMap = new TreeMap<>();
-        for (IStock iStock : stocks) {
+        for (StockDao iStock : stocks) {
             stocksMap.put(iStock.getPid(), iStock.getStock());
         }
         return stocksMap;
@@ -59,19 +60,10 @@ public class ProductService {
 
     public Product getProductByArticleNumber(Long articleNumber) {
         Product product = productRepository.findByArticleNumber(articleNumber);
-        Long productStock = getProductStock(product.getId());
-        product.setActualStock(productStock);
+        Long productStock = orderDetailRepository.getProductStock(product.getId());
+        product.setActualStock(productComponent.getLongValue(productStock));
         return product;
     }
-
-    private Long getProductStock(Long id) {
-        Long productStock = orderDetailRepository.getProductStock(id);
-        if (productStock == null) {
-            productStock = 0L;
-        }
-        return productStock;
-    }
-
 
     // SAVE NEW PRODUCT
 
@@ -85,35 +77,18 @@ public class ProductService {
         product.setArticleNumber(productDto.getArticleNumber());
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
-        product.setValid(setValidFromDto(productDto.getValid()));
+        product.setValid(productComponent.getBooleanValue(productDto.getValid()));
 
         ProductPrice productPrice = new ProductPrice();
         productPrice.setProduct(product);
-        productPrice.setListPrice(setPriceFromDto(productDto.getListPrice()));
-        productPrice.setMinPrice(setPriceFromDto(productDto.getMinPrice()));
+        productPrice.setListPrice(productComponent.getDoubleValue(productDto.getListPrice()));
+        productPrice.setMinPrice(productComponent.getDoubleValue(productDto.getMinPrice()));
         product.setProductPrice(productPrice);
 
         examinePrice(product.getProductPrice());
-
         product.setProductCategory(setProductCategoryFromDto(productDto.getProductCategory()));
 
         return product;
-    }
-
-    private Double setPriceFromDto(Double price) {
-        if (price == null) {
-            return 0D;
-        } else {
-            return price;
-        }
-    }
-
-    private Boolean setValidFromDto(Boolean valid) {
-        if (valid == null) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     private void examinePrice(ProductPrice productPrice) {
@@ -184,7 +159,6 @@ public class ProductService {
         }
     }
 
-
     // DELETE PRODUCT
 
     public void deleteProductByArticleNumber(Long articleNumber) {
@@ -192,44 +166,5 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    // GET ALL I-PRODUCT-DTO
-
-    public List<IProductDto> getAllIProductDto() {
-        return productRepository.getAllProductDto();
-    }
-
-    // GET ALL PRODUCT-DTO
-
-    public List<ProductDtoGet> getAllProductDto() {
-        List<IProductDto> iProductDtoList = productRepository.getAllProductDto();
-        return createIDtoToDto(iProductDtoList);
-    }
-
-    private List<ProductDtoGet> createIDtoToDto(List<IProductDto> iProductDtoList) {
-        List<ProductDtoGet> productDtoGetList = new ArrayList<>();
-        for(IProductDto iProductDto : iProductDtoList) {
-            ProductDtoGet productDtoGet = new ProductDtoGet();
-            productDtoGet.setArticleNumber(iProductDto.getArticle_Number());
-            productDtoGet.setName(iProductDto.getName());
-            productDtoGet.setDescription(iProductDto.getDescription());
-            productDtoGet.setCategory(iProductDto.getProduct_Category_Prefix());
-            productDtoGet.setValid(iProductDto.getValid());
-            productDtoGet.setListPrice(iProductDto.getList_Price());
-            productDtoGet.setMinPrice(iProductDto.getMin_Price());
-            if (iProductDto.getStock() != null) {
-                productDtoGet.setStock(iProductDto.getStock());
-            } else {
-                productDtoGet.setStock(0L);
-            }
-            productDtoGetList.add(productDtoGet);
-        }
-        return productDtoGetList;
-    }
-
-    // GET I-PRODUCT-HISTORY
-
-    public List<IProductStory> getIProductHistory(Long articleNumber) {
-        List<IProductStory> iProductStories = orderDetailRepository.getProductHistory(articleNumber);
-        return iProductStories;
-    }
 }
+

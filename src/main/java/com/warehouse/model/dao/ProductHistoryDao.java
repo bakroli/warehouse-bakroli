@@ -1,11 +1,8 @@
-package com.warehouse.dto.product;
-
-import lombok.Getter;
-import org.springframework.web.bind.annotation.GetMapping;
+package com.warehouse.model.dao;
 
 import java.time.LocalDate;
 
-public interface IProductStory {
+public interface ProductHistoryDao {
 
     Long getOrder_number();
     String getOrder_type();

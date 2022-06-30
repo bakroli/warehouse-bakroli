@@ -1,7 +1,7 @@
 package com.warehouse.repository.order;
 
-import com.warehouse.dto.product.IProductStory;
-import com.warehouse.dto.product.IStock;
+import com.warehouse.model.dao.ProductHistoryDao;
+import com.warehouse.model.dao.StockDao;
 import com.warehouse.entity.order.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -36,7 +36,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
             "JOIN orders ON orders.order_number = order_details.order_number " +
             "GROUP BY product_id"
             ,nativeQuery = true)
-    List<IStock> countProductStock();
+    List<StockDao> countProductStock();
 
 
     @Query (value =
@@ -53,5 +53,5 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
             "WHERE products.article_number = ? " +
             "ORDER BY orders.order_number"
             , nativeQuery = true)
-    List<IProductStory> getProductHistory(Long articleNumber);
+    List<ProductHistoryDao> getIProductHistory(Long articleNumber);
 }

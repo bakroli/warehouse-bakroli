@@ -4,7 +4,6 @@ import com.warehouse.dto.order.OrderDetailDto;
 import com.warehouse.dto.order.OrderDto;
 import com.warehouse.dto.product.ProductDto;
 import com.warehouse.entity.product.Product;
-import com.warehouse.entity.product.ProductCategory;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

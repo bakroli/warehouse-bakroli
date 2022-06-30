@@ -1,4 +1,4 @@
-package com.warehouse.dto.product;
+package com.warehouse.model.product;
 
 
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductHistory {
+public class ProductHistoryModel {
 
     private Long orderNumber;
     private String orderType;
@@ -20,5 +20,7 @@ public class ProductHistory {
     private String comment;
     private Long numberOfItem;
     private Double pricePerItem;
+    private Double sum;
+    private Long actualStock;
 
 }

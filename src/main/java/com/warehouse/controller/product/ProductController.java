@@ -1,7 +1,5 @@
 package com.warehouse.controller.product;
 
-import com.warehouse.dto.product.IProductDto;
-import com.warehouse.dto.product.IProductStory;
 import com.warehouse.dto.product.ProductDto;
 import com.warehouse.entity.product.Product;
 import com.warehouse.service.product.ProductService;
@@ -12,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,7 @@ import java.util.List;
 @Tag(name = "Products", description = "Product operations")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -43,7 +40,6 @@ public class ProductController {
         try {
             return ResponseEntity.ok(productService.getProductByArticleNumber(articleNumber));
         } catch (NullPointerException e) {
-            //return ResponseEntity.notFound().build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid article number: " + articleNumber + " !");
         }
     }
@@ -75,22 +71,27 @@ public class ProductController {
     public ResponseEntity<String> deleteProductByArticleNumber(@PathVariable("articleNumber") Long articleNumber) {
         try {
             productService.deleteProductByArticleNumber(articleNumber);
-            return ResponseEntity.ok().body("DELETING");
+            return ResponseEntity.ok().body("Delete");
         } catch(EmptyResultDataAccessException ee) {
-            return ResponseEntity.badRequest().body("INVALID ID");
+            return ResponseEntity.badRequest().body("Invalid Article No");
         } catch (DataIntegrityViolationException ce) {
-            return ResponseEntity.badRequest().body("NEM TÖRÖLHETŐ! KAPCSOLATBAN VAN. TEDD FALSRA HA NEM KELL");
+            return ResponseEntity.badRequest().body("Cannot be Deleted");
         }
     }
 
-    @GetMapping("/dto")
-    public List<IProductDto> getAllProductDto() {
-        return productService.getAllIProductDto();
-    }
-
-    @GetMapping("/history/{articleNumber}")
-    public List<IProductStory> getProductHistory(@PathVariable("articleNumber") Long articleNumber, Model model) {
-        return productService.getIProductHistory(articleNumber);
-    }
+//    @GetMapping("/dto")
+//    public List<IProductGet> getAllProductDto() {
+//        return productService.getAllIProductDto();
+//    }
+//
+//    @GetMapping("/history/{articleNumber}")
+//    public List<IProductHistory> getProductHistory(@PathVariable("articleNumber") Long articleNumber) {
+//        return productService.getIProductHistory(articleNumber);
+//    }
+//
+//    @GetMapping("/dto/{articleNumber}")
+//    public ProductGetDto getProductDto(@PathVariable("articleNumber") Long articleNumber) {
+//        return productService.getProductDtoGet(articleNumber);
+//    }
 
 }

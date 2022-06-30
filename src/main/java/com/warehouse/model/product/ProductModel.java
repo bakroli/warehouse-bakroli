@@ -1,4 +1,4 @@
-package com.warehouse.dto.product;
+package com.warehouse.model.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDtoGet {
+public class ProductModel {
 
     private Long articleNumber;
     private String name;
@@ -19,4 +19,5 @@ public class ProductDtoGet {
     private Double listPrice;
     private Double minPrice;
     private Long stock;
+
 }

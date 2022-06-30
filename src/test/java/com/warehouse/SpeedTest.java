@@ -31,8 +31,8 @@ public class SpeedTest {
     @Order(1)
     void fullSpeedTestInit() {
 
-        int productsNumber = 3000;
-        int maxOrdersNumber = 5000;
+        int productsNumber = 2000;
+        int maxOrdersNumber = 6000;
 
         createProducts(productsNumber);
         createStockInit(productsNumber);
@@ -73,7 +73,7 @@ public class SpeedTest {
 
         for (int i = 0; i < max; i++) {
             productDto.setArticleNumber(articleNumberGenerator);
-            productDto.setName("TEST-NAME" + articleNumberGenerator);
+            productDto.setName("TEST-NAME-" + articleNumberGenerator);
             productDto.setDescription("description");
             productDto.setValid(true);
             productDto.setListPrice(1000D);
@@ -115,11 +115,11 @@ public class SpeedTest {
             orderDto.setDate(LocalDate.now());
             orderDto.setOrderType(randomOrderType(random));
             List<OrderDetailDto> details = new ArrayList<>();
-            int cMax = random.nextInt(6) + 1;
-            for (int c = 0; c < cMax; c++) {
+            int maxOrderDetailRow = random.nextInt(10) + 1;
+            for (int c = 0; c < maxOrderDetailRow; c++) {
                 OrderDetailDto orderDetailDto = new OrderDetailDto();
                 orderDetailDto.setArticleNumber(random.nextLong(maxProductsNumber + 1) + 1);
-                orderDetailDto.setNumberOfItem(random.nextLong(10)+1);
+                orderDetailDto.setNumberOfItem(random.nextLong(25)+1);
                 orderDetailDto.setPricePerItem(900D);
                 details.add(orderDetailDto);
             }

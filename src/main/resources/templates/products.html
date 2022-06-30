@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Products</h1>
+    <h2>Products List</h2>
     <div>
         <table>
             <thead>
@@ -19,6 +19,7 @@
                 <th>List Price</th>
                 <th>Min Price</th>
                 <th>Stock</th>
+                <th>History</th>
             </tr>
             </thead>
             <tbody>
@@ -29,8 +30,9 @@
                 <td th:text="${product.category}"></td>
                 <td th:text="${product.valid}"></td>
                 <td th:text="${product.listPrice}" class="tdright"></td>
-                <td th:text="${product.minPrice}" class=tdright></td>
-                <td th:text="${product.stock}" class=tdright></td>
+                <td th:text="${product.minPrice}" class="tdright"></td>
+                <td th:text="${product.stock}" class="tdright"></td>
+                <td class="tdcentre"><a th:href="@{'http://localhost:8080/products/html/' + ${product.articleNumber}}">view</a></td>
             </tr>
             </tbody>
         </table>

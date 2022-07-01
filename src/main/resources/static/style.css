@@ -31,6 +31,10 @@ td {
     text-align: center;
 }
 
+.minwidth {
+    min-width: 124px;
+}
+
 #producttable {
     margin-bottom: 20px;
 }

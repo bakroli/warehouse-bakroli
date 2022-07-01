@@ -122,6 +122,13 @@ public class ProductService {
             }
         }
 
+        if (productDto.getProductCategory() != null) {
+            ProductCategory productCategory = productCategoryRepository.findById(productDto.getProductCategory()).orElse(null);
+            if (productCategory != null) {
+                product.setProductCategory(productCategory);
+            }
+        }
+        
         if (productDto.getDescription() != null) {
             product.setDescription(setUpdateDescription(productDto.getDescription(), product.getDescription()));
         }

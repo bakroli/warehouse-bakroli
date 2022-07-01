@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h2>Orders</h2>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Comment</th>
+                <th>View</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order:${orders}">
+                <td th:text="${order.orderNumber}"></td>
+                <td th:text="${order.date}"></td>
+                <td th:text="${order.orderType}"></td>
+                <td th:text="${order.comment}"></td>
+                <td class="tdcentre"><a th:href="@{'http://localhost:8080/orders/html/' + ${order.orderNumber}}">view</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

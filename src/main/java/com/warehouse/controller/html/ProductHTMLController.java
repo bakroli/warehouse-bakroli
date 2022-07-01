@@ -1,4 +1,4 @@
-package com.warehouse.controller.productHTML;
+package com.warehouse.controller.html;
 
 import com.warehouse.model.product.ProductHistoryModel;
 import com.warehouse.service.product.ProductHtmlService;
@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
-public class productHTMLController {
+public class ProductHTMLController {
 
     private ProductHtmlService productHtmlService;
 
     @Autowired
-    public productHTMLController(ProductHtmlService productHtmlService) {
+    public ProductHTMLController(ProductHtmlService productHtmlService) {
         this.productHtmlService = productHtmlService;
     }
 
     @GetMapping("/products/html")
     public String getAllProductsDto(Model model) {
-        model.addAttribute("title", "Products");
         model.addAttribute("products", productHtmlService.getAllProductModel());
         return "products";
     }

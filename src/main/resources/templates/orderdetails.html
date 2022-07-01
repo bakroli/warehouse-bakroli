@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Order Details, Numero: ' + ${order.orderNumber}">Order Details</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div>
+    <h2>Order Details</h2>
+
+    <div id="producttable">
+        <table>
+            <tbody>
+            <tr>
+                <td class="tdp">Order Number</td>
+                <td th:text="${order.orderNumber}" class="minwidth"></td>
+            </tr>
+            <tr>
+                <td class="tdp">Order Date</td>
+                <td th:text="${order.date}"></td>
+            </tr>
+            <tr>
+                <td class="tdp">Order Type</td>
+                <td th:text="${order.orderType}"></td>
+            </tr>
+            <tr>
+                <td class="tdp">Comment</td>
+                <td th:text="${order.comment}"></td>
+            </tr>
+            <tr>
+                <td class="tdp">Total Sum</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>Article Number</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Number of Item</th>
+            <th>Price per Item</th>
+            <th>View Product</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detail:${details}">
+            <td th:text="${detail.articleNumber}"></td>
+            <td th:text="${detail.name}"></td>
+            <td th:text="${detail.description}"></td>
+            <td th:text="${detail.category}"></td>
+            <td th:text="${detail.numberOfItem}"></td>
+            <td th:text="${detail.pricePerItem}"></td>
+            <td class="tdcentre"><a th:href="@{'http://localhost:8080/products/html/' + ${detail.articleNumber}}">view</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

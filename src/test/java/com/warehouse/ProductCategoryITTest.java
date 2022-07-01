@@ -61,8 +61,6 @@ public class ProductCategoryITTest {
     @Test
     @Order(4)
     void TPC203_testPostAndGetOneProductTypeGoodData() {
-        //template.postForObject("/categories", new ProductCategoryDto("XT", "XT-Telescope"), String.class);
-        //template.postForObject("/categories", new ProductCategoryDto("X-T", "X-Telescope"), String.class);
         ProductCategory productCategory = template.getForObject("/categories/XT", ProductCategory.class);
         assertEquals("XT", productCategory.getPrefix());
         assertEquals("XT-Telescope", productCategory.getName());
@@ -74,7 +72,6 @@ public class ProductCategoryITTest {
     @Test
     @Order(5)
     void TPC204_testDeleteProduct() {
-        //String answer = template.postForObject(URL, new ProductCategoryDto("XT", "XT-Telescope"), String.class);
         template.delete(URL + "/XT");
         ProductCategory productCategory = template.getForObject("/categories/XT", ProductCategory.class);
         assertNull(productCategory);
@@ -101,7 +98,6 @@ public class ProductCategoryITTest {
 
     @Test
     void TPC402_testGetOneProductTypeBadData() {
-        //template.postForObject("/categories", new ProductCategoryDto("XT", "X-Telescope"), String.class);
         ProductCategory productCategory = template.getForObject("/categories/XXX", ProductCategory.class);
         assertNull(productCategory);
     }

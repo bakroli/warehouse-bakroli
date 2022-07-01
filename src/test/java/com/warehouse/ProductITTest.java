@@ -100,13 +100,68 @@ public class ProductITTest {
     }
 
     @Test
-    void P06_testInvalidData() {
+    void P06_testInvalidDataNoneNameOrDescription() {
         ProductDto productDto = new ProductDto();
         productDto.setArticleNumber(6L);
+
         productDto.setName("INVALID");
         productDto.setDescription("");
         String answer = template.postForObject(URL, productDto, String.class);
         assertEquals("INVALID DATA", answer);
+
+
+        productDto.setName("");
+        productDto.setDescription("description for invalid");
+        answer = template.postForObject(URL, productDto, String.class);
+        assertEquals("INVALID DATA", answer);
+    }
+
+    @Test
+    void P07_testPostAndGetProducts() {
+        ProductCategoryDto productCategoryDto = new ProductCategoryDto();
+        productCategoryDto.setPrefix("XTT");
+        productCategoryDto.setName("XT-TelesScope");
+        template.postForObject("/categories", productCategoryDto, String.class);
+
+        ProductDto productDto = new ProductDto();
+
+        productDto.setArticleNumber(7L);
+        productDto.setName("TEST-NAME-7");
+        productDto.setDescription("description");
+        productDto.setProductCategory(productCategoryDto.getPrefix());
+        productDto.setValid(true);
+        productDto.setMinPrice(800D);
+        productDto.setListPrice(1000D);
+
+        String answer = template.postForObject(URL, productDto, String.class);
+        assertEquals("NEW Product save OK, product article number: 7", answer);
+        Product product = template.getForObject(URL + "/7", Product.class);
+        assertEquals(7, product.getArticleNumber());
+        assertEquals("TEST-NAME-7", product.getName());
+        assertEquals(productCategoryDto.getPrefix(), product.getProductCategory().getPrefix());
+        assertEquals(true, product.getValid());
+        assertEquals(800D, product.getProductPrice().getMinPrice());
+        assertEquals(1000D, product.getProductPrice().getListPrice());
+    }
+
+    @Test
+    void P08_testMinAndListPriceInvalidPrice() {
+        ProductDto productDto = new ProductDto();
+
+        productDto.setArticleNumber(8L);
+        productDto.setName("TEST-NAME-8");
+        productDto.setDescription("description");
+        productDto.setValid(true);
+        productDto.setMinPrice(1000D);
+        productDto.setListPrice(800D);
+
+        String answer = template.postForObject(URL, productDto, String.class);
+        assertEquals("ERROR new product save", answer);
+
+
+
+
+
     }
 
 

@@ -12,7 +12,7 @@
             <tbody>
                 <tr>
                     <td class="tdp">Article No</td>
-                    <td th:text="${product.articleNumber}"></td>
+                    <td th:text="${product.articleNumber}" class="minwidth"></td>
                 </tr>
                 <tr>
                     <td class="tdp">Product Name</td>
@@ -61,11 +61,12 @@
                 <th>Order Number</th>
                 <th>Order Date</th>
                 <th>Order Type</th>
-                <th >Order Comment</th>
+                <th>Order Comment</th>
                 <th>Number of Item</th>
                 <th>Price per Item</th>
                 <th>Total Sum</th>
                 <th>Actual Stock</th>
+                <th>View Order</th>
             </tr>
             </thead>
             <tbody>
@@ -78,6 +79,7 @@
                 <td th:text="${history.pricePerItem}" class="tdright"></td>
                 <td th:text="${history.sum}" class="tdright"></td>
                 <td th:text="${history.actualStock}" class="tdright"></td>
+                <td class="tdcentre"><a th:href="@{'http://localhost:8080/orders/html/' + ${history.orderNumber}}">view</a></td>
             </tr>
             </tbody>
         </table>

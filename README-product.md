@@ -15,7 +15,7 @@ Name (name): felhasználó adja meg, kötelező megadni, egyedinek kell lennie. 
 
 Így minden terméke egy egyedi Cikkszám-Név páros határoz meg. Ez lesz az identitása, ezek késöbb már nem változtahatóak meg.
 
-Leírás (description) - kötelező elem, ez késöbb változtatható
+Leírás (description) - kötelező elem, ez késöbb változtatható, nem lehet üres.
 
 Termék aktívitás (valid) - ezzel a beállítással lehet megadni, hogy egy termék használatban van-e.
 Olyan termék nem lehet inaktív (valid = false) amin még van árukészlet. Inaktív termékre már nem lehet árut bevételezni.
@@ -25,7 +25,7 @@ Termék kategória (product Category) - a termékeket lehet besorolni egy kialak
 
 Lista ár (list price) - a termék ára pozitiv szám és lehet nulla is (pl bemutató, ajándék termékek), nem lehet viszont negatív szám.
 
-Minimum ár(min price) - mint a Lista ér (min price),
+Minimum ár(min price) - mint a Lista ér (min price), kimenő terméknél a kimenő termék ára ennél nem lehet alacsonyabb.
 
 Fontos követelmény, hogy a Lista ár sosem lehet kissebb mint a Minimum ár!
 

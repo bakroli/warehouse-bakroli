@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ProductCategoryITTest {
+public class ProductCategoryTest {
 
     private final String URL = "/categories";
 

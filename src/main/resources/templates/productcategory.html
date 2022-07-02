@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Category</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <a href="http://localhost:8080"><div class="button">Home</div></a>
+    <a href="http://localhost:8080/products/html"><div class="button">Products</div></a>
+    <a href="http://localhost:8080/categories/html"><div class="button">Categories</div></a>
+    <a href="http://localhost:8080/orders/html"><div class="button">Orders</div></a>
+</header>
+<h2>Product Categories</h2>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Prefix</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category:${categories}">
+            <td th:text="${category.prefix}"></td>
+            <td th:text="${category.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

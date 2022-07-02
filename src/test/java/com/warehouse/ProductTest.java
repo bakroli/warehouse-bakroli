@@ -17,11 +17,10 @@ import org.springframework.http.HttpMethod;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ProductITTest {
+public class ProductTest {
 
     private final String URL = "/products";
 

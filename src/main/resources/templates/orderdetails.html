@@ -10,6 +10,7 @@
     <header>
         <a href="http://localhost:8080"><div class="button">Home</div></a>
         <a href="http://localhost:8080/products/html"><div class="button">Products</div></a>
+        <a href="http://localhost:8080/categories/html"><div class="button">Categories</div></a>
         <a href="http://localhost:8080/orders/html"><div class="button">Orders</div></a>
     </header>
     <h2>Order Details</h2>
@@ -34,7 +35,7 @@
             </tr>
             <tr>
                 <td class="tdp">Total Sum</td>
-                <td></td>
+                <td th:text="${sum}" class="thright"></td>
             </tr>
             </tbody>
         </table>
@@ -50,6 +51,7 @@
             <th>Category</th>
             <th>Number of Item</th>
             <th>Price per Item</th>
+            <th>Sum</th>
             <th>View Product</th>
         </tr>
         </thead>
@@ -59,8 +61,9 @@
             <td th:text="${detail.name}"></td>
             <td th:text="${detail.description}"></td>
             <td th:text="${detail.category}"></td>
-            <td th:text="${detail.numberOfItem}"></td>
-            <td th:text="${detail.pricePerItem}"></td>
+            <td th:text="${detail.numberOfItem}" class="thright"></td>
+            <td th:text="${detail.pricePerItem}" class="thright"></td>
+            <td th:text="${detail.numberOfItem} * ${detail.pricePerItem}" class="thright"></td>
             <td class="tdcentre"><a th:href="@{'http://localhost:8080/products/html/' + ${detail.articleNumber}}">view</a></td>
         </tr>
         </tbody>

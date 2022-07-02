@@ -76,4 +76,10 @@ public class OrderHtmlService {
         Order order = orderRepository.findById(orderNumber).orElseThrow();
         return createOrderEntityToModel(order);
     }
+
+    public Double getOrderTotalSum(List<OrderDetailModel> orderDetailModelList) {
+        return orderDetailModelList.stream()
+                .mapToDouble(p->p.getPricePerItem()*p.getNumberOfItem())
+                .sum();
+    }
 }

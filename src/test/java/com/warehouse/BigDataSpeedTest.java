@@ -22,7 +22,7 @@ import java.util.Random;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SpeedTest {
+public class BigDataSpeedTest {
 
     @Autowired
     TestRestTemplate template;

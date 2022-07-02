@@ -35,6 +35,49 @@ td {
     min-width: 124px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color : purple;
+    font-weight: bold;
+}
+
+.button {
+    display: inline-block;
+    border : 1px solid blue;
+    width: 100px;
+    text-align: center;
+    padding: 8px;
+    margin: 4px;
+    background-color: lightcyan;
+}
+
+.buttonindexhtml {
+    display: inline-block;
+    border : 1px solid blue;
+    width: 140px;
+    text-align: center;
+    padding: 8px;
+    margin: 4px;
+    background-color: lightcyan;
+}
+
+h3 {
+    margin-top: 32px;
+}
+
+.buttonindexapi {
+    display: inline-block;
+    border : 1px solid brown;
+    width: 140px;
+    text-align: center;
+    padding: 8px;
+    margin: 4px;
+    background-color: lavenderblush;
+}
+
 #producttable {
     margin-bottom: 20px;
 }

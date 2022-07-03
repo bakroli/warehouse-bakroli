@@ -1,4 +1,4 @@
-Warehouse - Raktárkezelés
+WAREHOUSE - Raktárkezelés
 by bakroli
 
 
@@ -15,7 +15,7 @@ Főbb jellemzők:
 A részletes megvalósítást az egyes dokumentumok tartalmazzák:
 
 - terméklista (product) kialakítás -> README-product.md
-- bizonylatok (orders) és raktárkezelés -> 
+- bizonylatok (orders) és raktárkezelés -> README-order.md
 - végpontok
 - postman
 - technikai információk

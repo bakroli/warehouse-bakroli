@@ -1,6 +1,6 @@
-Termékek - Product
+Termékek - PRODUCT
 
-A termékek tulajdonságai:
+Termék (Product) tulajdonságai:
 - cikkszám (article number)
 - név (name)
 - leírása (description)
@@ -30,6 +30,12 @@ Minimum ár(min price) - mint a Lista ér (min price), kimenő terméknél a kim
 Fontos követelmény, hogy a Lista ár sosem lehet kissebb mint a Minimum ár!
 
 
+Fogalmilag a termékhez (Product) kapcsolodik még az aktuális raktárkészlet értéke (actualStock), ami mindig egy számított érték.
+Kiszámításához lásd -> order.md (raktárkezelés alatt).
+
+****
+
+PRODUCT CATEGORY
 
 Ígény volt egy Termék kategória kialakítására (Product Category)
 Ennek két tulajdonsága:
@@ -39,4 +45,4 @@ Ennek két tulajdonsága:
 kategória azonosító (prefix): kötelező elem, 2-8 karakter hosszú, csak betű és szám, közepén kötőjelet tartalmazhat (-)
 kategórai neve (name) : kötelező elem, 2-20 karakter hosszú, csak betű és szám, közepén kötőjelet tartalmazhat (-)
 
-A termékeket nem kell kötelezően termékcsoportba besorolni, mert előfordulhatnak olyan egyedi, vagy a rendszern átmenő de csak kapcsolosó termékek amik nem képeznek jelentős tételt.
+A termékeket nem kell kötelezően termék-kategóriába besorolni, mert előfordulhatnak olyan egyedi, vagy a rendszeren átmenő de csak kapcsolosó termékek amik nem képeznek jelentős tételt.

@@ -45,7 +45,7 @@ public class ProductHtmlService {
 
     private List<ProductModel> createDaoToModelList(List<ProductDao> iProductDtoList) {
         List<ProductModel> productDtoGetList = new ArrayList<>();
-        for(ProductDao iProductDto : iProductDtoList) {
+        for (ProductDao iProductDto : iProductDtoList) {
             ProductModel productDtoGet = createDaoToModel(iProductDto);
             productDtoGetList.add(productDtoGet);
         }
@@ -54,7 +54,6 @@ public class ProductHtmlService {
 
     private ProductModel createDaoToModel(ProductDao productDao) {
         ProductModel productModel = new ProductModel();
-
         productModel.setArticleNumber(productDao.getArticle_Number());
         productModel.setName(productDao.getName());
         productModel.setDescription(productDao.getDescription());
@@ -63,7 +62,6 @@ public class ProductHtmlService {
         productModel.setListPrice(productDao.getList_Price());
         productModel.setMinPrice(productDao.getMin_Price());
         productModel.setStock(productComponent.getLongValue(productDao.getStock()));
-
         return productModel;
     }
 

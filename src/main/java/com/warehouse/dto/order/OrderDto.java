@@ -21,7 +21,9 @@ public class OrderDto {
 
     private String comment;
 
-    @NotNull @NotBlank @NotEmpty
+    @NotNull
+    @NotBlank
+    @NotEmpty
     @Pattern(regexp = "^[I][N]$|^[O][U][T]$")
     private String orderType;
 

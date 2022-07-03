@@ -9,15 +9,19 @@ import javax.validation.constraints.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryDto{
+public class ProductCategoryDto {
 
-    @NotNull @NotBlank @NotEmpty
+    @NotNull
+    @NotBlank
+    @NotEmpty
     @Size(min = 2, max = 8)
     @Pattern(regexp = "[a-zA-Z0-9][a-zA-Z0-9-]{0,6}[a-zA-Z0-9]")
     @Schema(description = "Product category prefix", example = "PS")
     private String prefix;
 
-    @NotNull @NotBlank @NotEmpty
+    @NotNull
+    @NotBlank
+    @NotEmpty
     @Size(min = 2, max = 20)
     @Pattern(regexp = "[a-zA-Z0-9][a-zA-Z0-9-]{0,18}[a-zA-Z0-9]")
     @Schema(description = "Product category name", example = "PopeScope")

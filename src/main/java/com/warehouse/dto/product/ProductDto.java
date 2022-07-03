@@ -13,11 +13,15 @@ public class ProductDto {
     @Positive
     private Long articleNumber;
 
-    @NotNull @NotBlank @NotEmpty
+    @NotNull
+    @NotBlank
+    @NotEmpty
     @Size(min = 2)
     private String name;
 
-    @NotNull @NotBlank @NotEmpty
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private String description;
 
     private Boolean valid;

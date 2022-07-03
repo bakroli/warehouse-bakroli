@@ -58,7 +58,7 @@ public class ProductCategoryController {
         try {
             productCategoryService.deleteProductCategory(prefix);
             return ResponseEntity.ok().body("DELETING prefix: " + prefix);
-        } catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.badRequest().body("No Such Prefix!");
         } catch (DataIntegrityViolationException ce) {
             return ResponseEntity.badRequest().body("Cannot be deleted! It is in use.");

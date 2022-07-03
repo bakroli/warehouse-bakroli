@@ -14,13 +14,16 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class OrderDetailDto {
 
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Long articleNumber;
 
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Long numberOfItem;
 
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Double pricePerItem;
 
 }

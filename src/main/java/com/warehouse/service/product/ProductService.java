@@ -78,16 +78,13 @@ public class ProductService {
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setValid(productComponent.getBooleanValue(productDto.getValid()));
-
         ProductPrice productPrice = new ProductPrice();
         productPrice.setProduct(product);
         productPrice.setListPrice(productComponent.getDoubleValue(productDto.getListPrice()));
         productPrice.setMinPrice(productComponent.getDoubleValue(productDto.getMinPrice()));
         product.setProductPrice(productPrice);
-
         examinePrice(product.getProductPrice());
         product.setProductCategory(setProductCategoryFromDto(productDto.getProductCategory()));
-
         return product;
     }
 
@@ -109,7 +106,6 @@ public class ProductService {
 
     public void updateProductByArticleNumber(ProductDto productDto) {
         Product product = getValidProduct(productDto);
-
         if (productDto.getValid() != null) {
             if (productDto.getValid() == Boolean.FALSE) {
                 Long productStock = orderDetailRepository.getProductStock(product.getId());
@@ -121,28 +117,22 @@ public class ProductService {
                 product.setValid(Boolean.TRUE);
             }
         }
-
         if (productDto.getProductCategory() != null) {
             ProductCategory productCategory = productCategoryRepository.findById(productDto.getProductCategory()).orElse(null);
             if (productCategory != null) {
                 product.setProductCategory(productCategory);
             }
         }
-        
         if (productDto.getDescription() != null) {
             product.setDescription(setUpdateDescription(productDto.getDescription(), product.getDescription()));
         }
-
         if (productDto.getListPrice() != null && productDto.getListPrice() >= 0) {
             product.getProductPrice().setListPrice(productDto.getListPrice());
         }
-
         if (productDto.getMinPrice() != null && productDto.getMinPrice() >= 0) {
             product.getProductPrice().setMinPrice(productDto.getMinPrice());
         }
-
         examinePrice(product.getProductPrice());
-
         productRepository.save(product);
     }
 

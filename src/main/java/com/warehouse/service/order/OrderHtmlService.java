@@ -22,8 +22,8 @@ public class OrderHtmlService {
 
     @Autowired
     public OrderHtmlService(OrderRepository orderRepository,
-                        OrderDetailRepository orderDetailRepository,
-                        ProductRepository productRepository) {
+                            OrderDetailRepository orderDetailRepository,
+                            ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.productRepository = productRepository;
@@ -78,7 +78,7 @@ public class OrderHtmlService {
 
     public Double getOrderTotalSum(List<OrderDetailModel> orderDetailModelList) {
         return orderDetailModelList.stream()
-                .mapToDouble(p->p.getPricePerItem()*p.getNumberOfItem())
+                .mapToDouble(p -> p.getPricePerItem() * p.getNumberOfItem())
                 .sum();
     }
 

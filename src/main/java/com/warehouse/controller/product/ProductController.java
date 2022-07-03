@@ -71,7 +71,7 @@ public class ProductController {
         try {
             productService.deleteProductByArticleNumber(articleNumber);
             return ResponseEntity.ok().body("Delete");
-        } catch(NullPointerException ne) {
+        } catch (NullPointerException ne) {
             return ResponseEntity.badRequest().body("Invalid Article No");
         } catch (DataIntegrityViolationException ce) {
             return ResponseEntity.badRequest().body("Cannot be Deleted");

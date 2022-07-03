@@ -56,7 +56,7 @@ public class OrderService {
             throw new IllegalArgumentException();
         }
         if (order.getOrderType() == OrderType.OUT && !orderPriceMinPriceValid(order)) {
-            throw  new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
         orderRepository.save(order);
         return order.getOrderNumber();
@@ -104,7 +104,6 @@ public class OrderService {
         Order order = new Order();
         order.setDate(orderDto.getDate());
         order.setComment(orderDto.getComment());
-
         if (orderDto.getOrderType().equals(OrderType.IN.toString())) {
             order.setOrderType(OrderType.IN);
         } else if (orderDto.getOrderType().equals(OrderType.OUT.toString())) {
@@ -112,10 +111,9 @@ public class OrderService {
         } else {
             throw new IllegalArgumentException();
         }
-
         List<OrderDetail> orderDetails = new ArrayList<>();
         Map<Long, Long> stocks = new HashMap<>();
-        for(OrderDetailDto orderDetailDto : orderDto.getOrderDetails()) {
+        for (OrderDetailDto orderDetailDto : orderDto.getOrderDetails()) {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             Product product = productRepository.findByArticleNumber(orderDetailDto.getArticleNumber());
@@ -139,7 +137,7 @@ public class OrderService {
             orderDetails.add(orderDetail);
         }
         for (Map.Entry<Long, Long> e : stocks.entrySet()) {
-            if (e.getValue()<0) {
+            if (e.getValue() < 0) {
                 throw new NumberFormatException();
             }
         }

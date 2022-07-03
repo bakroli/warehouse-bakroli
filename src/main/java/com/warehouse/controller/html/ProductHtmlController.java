@@ -13,8 +13,7 @@ import java.util.List;
 @Controller
 public class ProductHtmlController {
 
-    private ProductHtmlService productHtmlService;
-
+    private final ProductHtmlService productHtmlService;
 
     @Autowired
     public ProductHtmlController(ProductHtmlService productHtmlService) {
@@ -32,12 +31,9 @@ public class ProductHtmlController {
         List<ProductHistoryModel> productHistory = productHtmlService.getProductHistoryModel(articleNumber);
         model.addAttribute("history", productHistory);
         model.addAttribute("product", productHtmlService.getProductModel(articleNumber));
-        double fiFoPrice = productHtmlService.getFiFoPriceFromHistory(productHistory);
-        model.addAttribute("fifoprice", fiFoPrice);
         double lastPurchasePrice = productHtmlService.getLastPurchasePriceFromHistory(productHistory);
         model.addAttribute("lastpurchaseprice", lastPurchasePrice);
         return "producthistory";
     }
-
 
 }

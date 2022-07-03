@@ -28,4 +28,5 @@ public class ProductPrice {
 
     @Column(scale = 2, nullable = false)
     private Double minPrice;
+
 }

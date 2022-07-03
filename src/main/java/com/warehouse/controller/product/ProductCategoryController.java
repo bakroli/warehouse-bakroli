@@ -37,12 +37,6 @@ public class ProductCategoryController {
 
     @GetMapping("/{prefix}")
     public ProductCategory getProductCategoryByPrefix(@PathVariable("prefix") String prefix) {
-//        try {
-//            return ResponseEntity.ok(productCategoryService.getProductCategoryByPrefix(prefix));
-//        } catch (NullPointerException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid prefix: " + prefix + " !");
-//        }
-
         return productCategoryService.getProductCategoryByPrefix(prefix);
     }
 
@@ -75,9 +69,5 @@ public class ProductCategoryController {
     public void updateProductCategory(@RequestBody ProductCategoryDto productCategoryDto) {
         productCategoryService.updateProductCategory(productCategoryDto);
     }
-
-
-
-
 
 }

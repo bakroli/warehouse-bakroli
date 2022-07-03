@@ -1,9 +1,9 @@
-Végpontok - ENDPOINTS
+## Végpontok - ENDPOINTS
 
 
-**API:**
+### API:
 
-Products:
+**Products:**
 
 - GET : http://localhost:8080/products (requestbody: Product)
 - GET (by article number): http://localhost:8080/products/{articleNumber} (requestbody: Product)
@@ -11,21 +11,21 @@ Products:
 - PUT : http://localhost:8080/products (body:ProductDto)
 - DELETE : http://localhost:8080/products/{articleNumber}
  
-ProductCategory:
+**ProductCategory:**
 
 - GET : http://localhost:8080/categories
 - GET (by prefix): http://localhost:8080/categories/{prefix}
 - POST : http://localhost:8080/categories
 - DELETE : http://localhost:8080/categories/{prefix}
 
-Oreder
+**Oreder**
 
 - GET : http://localhost:8080/orders (requestbody: Order)
 - GET (by orderNumber) : http://localhost:8080/orders/{orderNumber} (requestbody: List<OrderDetail>)
 - POST http://localhost:8080/orders (body: OrderDto)
 
 
-**HTTP:**
+### HTTP:
 
 Fő oldal ahonnét lehet nagvigáni:
 http://localhost:8080/
@@ -34,7 +34,9 @@ http://localhost:8080/
 - http://localhost:8080/categories/html
 - http://localhost:8080/orders/html
 
+(a http oldalak főleg Model osztályokat kapnak vissza, egy két helyen Entity-t)
 
-**SWAGGER:**
+
+### SWAGGER:
 
 http://localhost:8080/swagger-ui/index.html

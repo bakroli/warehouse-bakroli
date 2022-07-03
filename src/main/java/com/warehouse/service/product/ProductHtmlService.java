@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class ProductHtmlService {
 
-    private ProductRepository productRepository;
-    private OrderDetailRepository orderDetailRepository;
-    private ProductComponent productComponent;
+    private final ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductComponent productComponent;
 
     @Autowired
     public ProductHtmlService(ProductRepository productRepository,
@@ -28,12 +28,6 @@ public class ProductHtmlService {
         this.orderDetailRepository = orderDetailRepository;
         this.productComponent = productComponent;
     }
-
-//    // GET ALL I-PRODUCT-DAO
-//
-//    public List<ProductDao> getAllIProductDto() {
-//        return productRepository.getAllProductDto();
-//    }
 
     // GET PRODUCT-DAO
 
@@ -73,12 +67,6 @@ public class ProductHtmlService {
         return productModel;
     }
 
-    // GET I-PRODUCT-HISTORY
-
-//    public List<ProductHistoryDao> getIProductHistory(Long articleNumber) {
-//        return orderDetailRepository.getIProductHistory(articleNumber);
-//    }
-
     // GET PRODUCT-HISTORY
 
     public List<ProductHistoryModel> getProductHistoryModel(Long articleNumber) {
@@ -109,11 +97,6 @@ public class ProductHtmlService {
         return productHistories;
     }
 
-
-    public double getFiFoPriceFromHistory(List<ProductHistoryModel> productHistory) {
-        return 0;
-    }
-
     public double getLastPurchasePriceFromHistory(List<ProductHistoryModel> productHistory) {
         double lastPurchasePrice = 0;
         for (int i = 0; i < productHistory.size(); i++) {
@@ -124,6 +107,7 @@ public class ProductHtmlService {
         }
         return lastPurchasePrice;
     }
+
 }
 
 

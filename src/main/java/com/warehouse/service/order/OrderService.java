@@ -20,9 +20,9 @@ import java.util.Map;
 @Service
 public class OrderService {
 
-    private OrderRepository orderRepository;
-    private OrderDetailRepository orderDetailRepository;
-    private ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
@@ -146,4 +146,5 @@ public class OrderService {
         order.setOrderDetails(orderDetails);
         return order;
     }
+
 }

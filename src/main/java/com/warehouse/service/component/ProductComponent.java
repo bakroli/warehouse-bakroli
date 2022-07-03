@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductComponent {
 
-
     public Long getLongValue(Long value) {
         if (value != null) {
             return value;
@@ -29,4 +28,5 @@ public class ProductComponent {
             return false;
         }
     }
+
 }

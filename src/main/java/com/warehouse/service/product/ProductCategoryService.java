@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ProductCategoryService {
 
-    private ProductCategoryRepository productCategoryRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
     @Autowired
     public ProductCategoryService(ProductCategoryRepository productCategoryRepository) {
@@ -44,4 +44,5 @@ public class ProductCategoryService {
     public ProductCategory getProductCategoryByPrefix(String prefix) {
         return productCategoryRepository.findById(prefix).orElse(null);
     }
+
 }

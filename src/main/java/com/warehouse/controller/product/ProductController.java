@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -78,20 +77,5 @@ public class ProductController {
             return ResponseEntity.badRequest().body("Cannot be Deleted");
         }
     }
-
-//    @GetMapping("/dto")
-//    public List<IProductGet> getAllProductDto() {
-//        return productService.getAllIProductDto();
-//    }
-//
-//    @GetMapping("/history/{articleNumber}")
-//    public List<IProductHistory> getProductHistory(@PathVariable("articleNumber") Long articleNumber) {
-//        return productService.getIProductHistory(articleNumber);
-//    }
-//
-//    @GetMapping("/dto/{articleNumber}")
-//    public ProductGetDto getProductDto(@PathVariable("articleNumber") Long articleNumber) {
-//        return productService.getProductDtoGet(articleNumber);
-//    }
 
 }

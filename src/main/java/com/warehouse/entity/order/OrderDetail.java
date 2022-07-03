@@ -34,4 +34,5 @@ public class OrderDetail {
 
     @Column(name = "price_per_item")
     private Double pricePerItem;
+
 }

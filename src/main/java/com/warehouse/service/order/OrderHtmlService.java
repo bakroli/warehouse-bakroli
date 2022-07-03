@@ -71,7 +71,6 @@ public class OrderHtmlService {
         return orderDetailModel;
     }
 
-
     public OrderModel getOrderByNumber(Long orderNumber) {
         Order order = orderRepository.findById(orderNumber).orElseThrow();
         return createOrderEntityToModel(order);
@@ -82,4 +81,5 @@ public class OrderHtmlService {
                 .mapToDouble(p->p.getPricePerItem()*p.getNumberOfItem())
                 .sum();
     }
+
 }

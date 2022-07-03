@@ -47,4 +47,5 @@ public class Product {
 
     @Transient
     private Long actualStock;
+
 }

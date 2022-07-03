@@ -1,4 +1,4 @@
-##Termékek - PRODUCT
+## Termékek - PRODUCT
 
 Termék (Product) tulajdonságai:
 - cikkszám (article number)

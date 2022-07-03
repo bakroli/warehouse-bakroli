@@ -30,7 +30,6 @@ public class StockCountTest {
     @Test
     @Order(1)
     void C1_oneProductInit() {
-
         String URL = "/products";
 
         ProductDto productDto = new ProductDto();
@@ -43,7 +42,6 @@ public class StockCountTest {
 
         String answer = template.postForObject(URL, productDto, String.class);
         assertEquals("NEW Product save OK, product article number: 1", answer);
-
     }
 
     @Test
@@ -52,7 +50,6 @@ public class StockCountTest {
         String URL = "/orders";
 
         OrderDto orderDto = new OrderDto();
-
         orderDto.setDate(LocalDate.now());
         orderDto.setComment("initial");
         orderDto.setOrderType("IN");
@@ -123,7 +120,7 @@ public class StockCountTest {
     @Order(4)
     void C4_testListProductCount() {
         String URL = "/products";
-        List<Product> products =  template.exchange(URL,
+        List<Product> products = template.exchange(URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Product>>() {

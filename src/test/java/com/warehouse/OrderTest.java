@@ -30,7 +30,6 @@ public class OrderTest {
     @Test
     @Order(1)
     void O1_initProduct() {
-
         ProductDto productDto = new ProductDto();
         productDto.setArticleNumber(1001L);
         productDto.setName("TESTAMENT-1001");
@@ -88,10 +87,6 @@ public class OrderTest {
         OrderDetail[] orderDetail = template.getForObject(URL + "/1", OrderDetail[].class);
         assertEquals(1, orderDetail.length);
         assertEquals(1001L, orderDetail[0].getProduct().getArticleNumber());
-
     }
-
-
-
 
 }

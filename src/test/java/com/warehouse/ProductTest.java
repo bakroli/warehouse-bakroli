@@ -30,13 +30,13 @@ public class ProductTest {
     @Test
     @Order(1)
     void P01_testProductDatabaseIsEmpty() {
-        List<Product> products =  template.exchange(URL,
+        List<Product> products = template.exchange(URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Product>>() {
                 }).getBody();
 
-        assertEquals(0,products.size());
+        assertEquals(0, products.size());
     }
 
     @Test
@@ -74,7 +74,6 @@ public class ProductTest {
     }
 
 
-
     @Test
     void P04_testPostMinimumProductData() {
         ProductDto productDto = new ProductDto();
@@ -108,7 +107,6 @@ public class ProductTest {
         String answer = template.postForObject(URL, productDto, String.class);
         assertEquals("INVALID DATA", answer);
 
-
         productDto.setName("");
         productDto.setDescription("description for invalid");
         answer = template.postForObject(URL, productDto, String.class);
@@ -123,7 +121,6 @@ public class ProductTest {
         template.postForObject("/categories", productCategoryDto, String.class);
 
         ProductDto productDto = new ProductDto();
-
         productDto.setArticleNumber(7L);
         productDto.setName("TEST-NAME-7");
         productDto.setDescription("description");
@@ -156,20 +153,6 @@ public class ProductTest {
 
         String answer = template.postForObject(URL, productDto, String.class);
         assertEquals("ERROR new product save", answer);
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
 
 }

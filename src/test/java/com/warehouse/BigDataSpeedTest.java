@@ -31,8 +31,8 @@ public class BigDataSpeedTest {
     @Order(1)
     void fullSpeedTestInit() {
 
-        int productsNumber = 2000;
-        int maxOrdersNumber = 6000;
+        int productsNumber = 20;
+        int maxOrdersNumber = 60;
 
         createProducts(productsNumber);
         createStockInit(productsNumber);
@@ -43,7 +43,7 @@ public class BigDataSpeedTest {
     @Order(2)
     void testGetAllProducts() {
         String URL = "/products";
-        List<Product> products =  template.exchange(URL,
+        List<Product> products = template.exchange(URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Product>>() {
@@ -54,16 +54,12 @@ public class BigDataSpeedTest {
     @Order(3)
     void testGetAllProductsDto() {
         String URL = "/products";
-        List<Product> products =  template.exchange(URL + "/dto",
+        List<Product> products = template.exchange(URL + "/dto",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Product>>() {
                 }).getBody();
-
     }
-
-
-
 
     private void createProducts(int max) {
         String URL = "/products";
@@ -119,7 +115,7 @@ public class BigDataSpeedTest {
             for (int c = 0; c < maxOrderDetailRow; c++) {
                 OrderDetailDto orderDetailDto = new OrderDetailDto();
                 orderDetailDto.setArticleNumber(random.nextLong(maxProductsNumber + 1) + 1);
-                orderDetailDto.setNumberOfItem(random.nextLong(25)+1);
+                orderDetailDto.setNumberOfItem(random.nextLong(25) + 1);
                 orderDetailDto.setPricePerItem(900D);
                 details.add(orderDetailDto);
             }
@@ -135,6 +131,5 @@ public class BigDataSpeedTest {
             return "OUT";
         }
     }
-
 
 }

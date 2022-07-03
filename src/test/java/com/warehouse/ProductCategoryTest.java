@@ -26,13 +26,12 @@ public class ProductCategoryTest {
     @Test
     @Order(1)
     void TPC00_testProductCategoryDatabaseIsEmpty() {
-        List<ProductCategory> productCategories =  template.exchange(URL,
+        List<ProductCategory> productCategories = template.exchange(URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ProductCategory>>() {
                 }).getBody();
-
-        assertEquals(0,productCategories.size());
+        assertEquals(0, productCategories.size());
     }
 
     @Test
@@ -47,8 +46,7 @@ public class ProductCategoryTest {
     @Test
     @Order(3)
     void TPC202_testGetAll() {
-
-        List<ProductCategory> productCategories =  template.exchange(URL,
+        List<ProductCategory> productCategories = template.exchange(URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<ProductCategory>>() {
@@ -79,9 +77,6 @@ public class ProductCategoryTest {
         assertEquals("X-T", productCategory.getPrefix());
     }
 
-
-
-
     @Test
     void TPC401_testPostProductCategoryBadData() {
         String answer = template.postForObject(URL, new ProductCategoryDto("-XT", "X-Telescope"), String.class);
@@ -94,18 +89,10 @@ public class ProductCategoryTest {
         assertEquals("INVALID DATA", answer);
     }
 
-
-
     @Test
     void TPC402_testGetOneProductTypeBadData() {
         ProductCategory productCategory = template.getForObject("/categories/XXX", ProductCategory.class);
         assertNull(productCategory);
     }
-
-
-
-
-
-
 
 }

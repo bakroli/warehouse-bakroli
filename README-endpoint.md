@@ -1,7 +1,7 @@
 Végpontok - ENDPOINTS
 
 
-API:
+**API:**
 
 Products:
 
@@ -25,7 +25,7 @@ Oreder
 - POST http://localhost:8080/orders (body: OrderDto)
 
 
-HTTP:
+**HTTP:**
 
 Fő oldal ahonnét lehet nagvigáni:
 http://localhost:8080/
@@ -35,6 +35,6 @@ http://localhost:8080/
 - http://localhost:8080/orders/html
 
 
-SWAGGER:
+**SWAGGER:**
 
 http://localhost:8080/swagger-ui/index.html

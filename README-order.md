@@ -1,33 +1,35 @@
-RAKTÁRKEZELÉS
+## RAKTÁRKEZELÉS
 
 A raktárkezelés szempontjai:
-- a raktárkészlet termékeként nem lehet negtív, nem lehet olyan terméket kivenni a raktárból amin nincs készlet vagy kivétel után a készletérték negatív lenne.
+- a raktárkészlet termékeként nem lehet negatív, nem lehet olyan terméket kivenni a raktárból amin nincs készlet vagy kivétel után a készletérték negatív lenne.
 - termékmozgás csak aktív terméken lehet (valid = true)
 - csak egész darabszámokat használjunk.
+- a bizonylat csak akkor éppen aktív termékekre (product.valid = true)
 
-Fontos meghatározás! A termék raktárkészlete:
+FONTOS meghatározás! A termék raktárkészlete:
 Az adott termék aktuális raktárkészlet értékének meghatározásához mindig a be és kivételezések sorrendje alapján történik (orderNumber).
 Ez az érték (hogy ténylegesen mennyi van egy adott termékből raktáron) nem lehet negatív.
 
 ---
 
-Bizonylatok - ORDER
+## Bizonylatok - ORDER
 
-Ezek biztositják a raktárba történő be- illetve kivételezést.
+Ezek biztosítják a raktárba történő be- illetve kivételezést.
 
-Bizonylat (Order) tulajdonságai:
-- száma (orderNumber) ez automatikusan generálódik, késöbb ez alapján hivatkozhatunk rá.
+*Bizonylat (Order) tulajdonságai:*
+- száma (orderNumber) ez automatikusan generálódik, később ez alapján hivatkozhatunk rá.
 - dátum (date), kötelező elem, nem lehet nagyobb az aktuális dátumnál
-- bionylat típusa (orderType) - kötelező elem, csak IN vagy OUT lehet, azt jelenti, hogy a raktárba befelé történik az áru mozgása (IN), vagy kifele (OUT)
+- bizonylat típusa (orderType) - kötelező elem, csak IN vagy OUT lehet, azt jelenti, hogy a raktárba befelé történik az áru mozgása (IN), vagy kifele (OUT)
 - megjegyzés a bizonylathoz (comment)
-- bizonylat sorai (orderDetail) a bionylathoz tartozó áruk, nem lehet üres.
+- bizonylat sorai (orderDetail) a bizonylathoz tartozó áruk, nem lehet üres
 
-Bizonylat sorai - (OrderDetail) - minden sor az alábbiakt tartalmazza:
+*Bizonylat sorai - (OrderDetail)*
+- minden sor az alábbiakt tartalmazza:
 - termék cikkszáma (articleNumber), kötelező elem
 - darabszám (numberOfItem), amennyit ki vagy bevételezünk, kötelező elem, nem lehet nulla
-- egységár, amennyiért a terméket eladjuk vagy vesszük, kötelező elem, ez lehet nulla érték (pl ajándék, alakatrész)
+- egységár, amennyiért a terméket eladjuk vagy vesszük, kötelező elem, ez lehet nulla érték (pl.: ajándék, alkatrész)
 
-
+**Bizonylatolás szabályai** (Order rules):
 A bizonylat csak akkor kerül be a rendszerbe ha minden tekintetben megfelel:
 - a dátum megfelelő (date)
 - a bizonylat típusa megfelelő (orderType = IN/OUT)
@@ -36,9 +38,10 @@ A bizonylat csak akkor kerül be a rendszerbe ha minden tekintetben megfelel:
 - a bizonylatsorokban van darabszám (numberOfItem), és az nagyobb mint nulla
 - a bizonylatsorokban van egységár (pricePerItem) és az nagyobb vagy egyenlő mint nulla
 - ha a bizonylat típusa kivétel (orderType = OUT) akkor rendelkezni kell az termékekből elegendő darabszámmal
-- ha a bizonylat típusa kivétel (orderType = OUT) akkor az egységárnak nagyobb vagy egyenlőnek kell lennie mint a termékhez kapcsolodó minimum árnak (order.pricePerItem>=product.minPrice).
+- ha a bizonylat típusa kivétel (orderType = OUT) akkor az egységárnak nagyobb vagy egyenlőnek kell lennie mint a termékhez kapcsolódó minimum árnak (order.pricePerItem>=product.minPrice).
 
 Ha a bizonylat (order) megfelelő akkor kap egy számot (orderNumber) amivel lehet rá hivatkozni.
 
-Az elmentett bizonylat (order) késöbb már nem modosítható!
+Az elmentett bizonylat (order) később már nem módosítható!
+(egyenlőre, ez későbbi fejlesztés)
 

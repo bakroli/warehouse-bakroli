@@ -1,0 +1,1 @@
+docker run -d --rm --name warehouse -p 8080:8080 warehouse
